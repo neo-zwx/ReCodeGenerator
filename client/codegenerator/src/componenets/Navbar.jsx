@@ -16,7 +16,7 @@ function Navbar() {
         <div>
           <ul className="navbar-list">
             <li><Link to={'/'}>Home</Link></li>
-            <li><Link to={'/patternpage'}>Design Pattern</Link></li>
+            {/* <li><Link to={'/patternpage'}>Design Pattern</Link></li> */}
             <li><Link to={'/desginselect'}>Design Select</Link></li>
           </ul>
         </div>
