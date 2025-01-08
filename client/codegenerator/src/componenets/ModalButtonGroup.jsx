@@ -1,16 +1,12 @@
 import React from "react";
 
-
-
+//這個組件負責顯示一組按鈕，每個按鈕對應一個彈出框（Modal）。我們可以將按鈕和彈出框的邏輯抽取出來，並通過 props 傳遞不同的 Modal 組件。
 
 // 根據buttons陣列動態生成按鈕和對應的視窗，如果某個按鈕具有modal屬性，則會附帶一個可顯示和隱藏的modal建
 
 //箭頭函式，會接收一個參數buttons，是一個包含按鈕資料的物件或陣列，用來告訴組件要渲染那些按鈕以及按鈕的行為
 const ModalButtonGroup=({buttons})=>{
 
-    const modals={
-        
-    }
 
     return(
         <div className="btn-card-body">

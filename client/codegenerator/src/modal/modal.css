@@ -1,0 +1,127 @@
+/* 使用 flex 排列子元素 */
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left; 
+  }
+  
+  /* 為每個 div 添加上下間距 */
+  .image-container > div {
+    margin: 50px 0;
+  }
+
+
+  .image {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 水平居中對齊 */
+    margin-top: 50px; /* 調整間距大小，可以根據需要調整數值 */
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 水平居中對齊 */
+    margin-top: 50px; /* 調整間距大小，可以根據需要調整數值 */
+    margin: 50px 0;
+
+  }
+
+ 
+
+  .modal-content {
+    background-color: #4c5e95;
+    color: white; 
+    box-shadow: 0 1px 20px 0px rgba(0, 0, 0, 0.1);
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-clip: padding-box;
+      border: 1px solid rgba(0,0,0,.2);
+      border-radius: .3rem;
+      outline: 0;
+      max-height: 80vh;
+      /* max-height: calc(200vh - 100px);   */
+      /* 調整最大高度，以適應不同螢幕尺寸 */
+      /* min-height: 200vh */
+  }
+  
+  
+  .modal-footer {
+    border-top: none; /* 移除底部栏上边框线 */
+  }
+  
+  .modal-title {
+    color: white; 
+  }
+  
+  .modal-body {
+    /* 調整最大高度，避免 modal 超出視窗 */
+    overflow-y: auto;  /* 啟用垂直滾動條 */
+    max-height: calc(100vh - 150px);  
+    /* 調整最大高度，以留出足夠空間 */
+  }
+  .modal {
+    position: fixed;
+    top: 0px;  /* 調整 modal 在視窗中的起始位置 */
+    left: 0;
+    right: 0;
+    margin: auto;  /* 水平居中 */
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+
+}
+
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+  p{
+    font-size: 20px;
+  }
+
+  li{
+    font-size: 20px;
+  }
+  
+.showcode {
+    padding: .75rem 1.25rem;
+    border-radius: calc(var(--bs-border-radius) - 1px);
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    background-color: #212b48d6;  
+}
+.showcode pre {
+  padding: 10px 10px;
+  margin-top: .8125rem;
+  margin-bottom: 0;
+  overflow: overlay;
+  white-space: pre;
+  background-color:#212b48d6;
+  border: 0;
+}
+
+ul{
+  background-color: rgba(31, 55, 75, 0.447);
+  padding: 20px 50px;
+}
+code{
+  color: rgb(192, 99, 99);
+}
+.step{
+  margin: 50px 0;
+}
+
+
+
+

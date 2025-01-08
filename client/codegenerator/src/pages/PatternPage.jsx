@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import ModalButtonGroup from "../componenets/ModalButtonGroup";
 import TemplateContent from "../componenets/TemplateContent";
 import FormInputTable from "../componenets/FormInputTable";
 import TableRow from "../componenets/TableRow";
 import CodePreview from "../componenets/CodePreview";
 
+import { HTFactoryPattern, EXFactoryPattern, CDFactoryPattern } from "../modal/FactoryModal";
+
 //當patterndata傳入patternpage後，該組件會根據數據進行條件渲染
 const PatternPage = ({ patternData }) => {
-  const [htShow, setHTshow] = useState(false);
-  const [exShow, setEXShow] = useState(false);
-  const [cdShow, setCdShow] = useState(false);
+  const modalState = {
+    htShow: false,
+    exShow: false,
+    cdShow: false,
+  };
+
   const [formData, setFormData] = useState(patternData.initialFormData);
   const [generatedCode, setGeneratedCode] = useState("");
   const [displayContent, setDisplayContent] = useState("");
 
   console.log("Received patternData in PatternPage:", patternData);
-  console.log("initialFormData",patternData.initialFormData)
-  console.log("formdata",formData)
-
+  console.log("initialFormData", patternData.initialFormData);
+  console.log("formdata", formData);
 
   //當patternData存在，則顯示數據的標題、id以及初始表單數據，否則顯示加載中
   if (!patternData) {
@@ -158,40 +162,99 @@ const PatternPage = ({ patternData }) => {
     navigator.clipboard.writeText(code);
   };
 
+  //redcer函數:根據acction.type來更新state
+  //state:當前的狀態，包含所有屬性狀態
+  //action:描述要執行的操作對象，具有type屬性來指定操作類型
+  const modalReducer = (state, action) => {
+    //根據action.type來更新state
+    switch (action.type) {
+      //如果action.type為TOGGLE_HT，則返回一個新的對象，並將htShow的值取反(即true變false，false變true)
+      case 'TOGGLE_HT':
+        return { ...state, htShow: !state.htShow };
+      case 'TOGGLE_EX':
+        return { ...state, exShow: !state.exShow };
+      case 'TOGGLE_CD':
+        return { ...state, cdShow: !state.cdShow };
+      //默認情況下，返回當前狀態
+      default:
+        return state;
+    }
+  };
+
+  //使用useReducer來管理modal的狀態,usereducer接受兩個參數，第一個參數是reducer函數，第二個參數是初始狀態
+  const [state, dispatch] = useReducer(modalReducer, modalState); //定義modal的初始狀態物件
+  const { htShow, exShow, cdShow } = state; //從state中解構出htShow,exShow,cdShow
+  // const buttons2 = [
+  //   {
+  //     label: "Introduce",
+  //     onClick: () => dispatch({ type: "TOGGLE_HT" }),
+  //     modal: htShow
+  //       ? {
+  //           component: modalComponents.HT,
+  //           show: htShow,
+  //           onHide: () => setHTShow(false),
+  //         }
+  //       : null,
+  //   },
+  //   {
+  //     label: "Implementation steps",
+  //     onClick: () => setEXShow(true),
+  //     modal: exShow
+  //       ? {
+  //           component: modalComponents.EX,
+  //           show: exShow,
+  //           onHide: () => setEXShow(false),
+  //         }
+  //       : null,
+  //   },
+  //   {
+  //     label: "Template Example",
+  //     onClick: () => setCDShow(true),
+  //     modal: cdShow
+  //       ? {
+  //           component: modalComponents.CD,
+  //           show: cdShow,
+  //           onHide: () => setCDShow(false),
+  //         }
+  //       : null,
+  //   },
+  // ];
+
   const buttons = [
     {
       label: "Introduce",
-      onClick: () => setHTShow(true),
+      onClick:()=>dispatch({type:'TOGGLE_HT'}),
+      //當用戶點擊按鈕時，會調用dispatch函數，並傳遞一個action對象，該對象包含type屬性，用來指定操作類型
+      //modal屬性:每個按鈕的 modal 屬性定義了是否顯示 modal，及其對應的組件和事件處理。當 htShow 為 true 時，Introduce 按鈕會關聯到 HTFactoryPattern 彈窗，並將其顯示。
       modal: htShow
-        ? {
-            component: modalComponents.HT,
-            show: htShow,
-            onHide: () => setHTShow(false),
-          }
-        : null,
+      ? {
+          component: HTFactoryPattern,
+          //
+          show: htShow,
+          onHide: () => dispatch({ type: "TOGGLE_HT" }),
+        }
+      : null,
     },
     {
       label: "Implementation steps",
-      onClick: () => setEXShow(true),
-      modal: exShow
-        ? {
-            component: modalComponents.EX,
-            show: exShow,
-            onHide: () => setEXShow(false),
-          }
-        : null,
+      onClick:()=>dispatch({type:'TOGGLE_EX'}),modal: exShow
+      ? {
+          component: EXFactoryPattern,
+          show: exShow,
+          onHide: () => dispatch({ type: "TOGGLE_EX" }),
+        }
+      : null,
     },
     {
       label: "Template Example",
-      onClick: () => setCDShow(true),
-      modal: cdShow
-        ? {
-            component: modalComponents.CD,
-            show: cdShow,
-            onHide: () => setCDShow(false),
-          }
-        : null,
-    },
+      onClick:()=>dispatch({type:'TOGGLE_CD'}),modal: cdShow
+      ? {
+          component: CDFactoryPattern,
+          show: cdShow,
+          onHide: () => dispatch({ type: "TOGGLE_CD" }),
+        }
+      : null,
+    }
   ];
 
   return (
@@ -248,14 +311,14 @@ const PatternPage = ({ patternData }) => {
         <div className="col-md-5">
           <div className="card-body">
             <p>Input</p>
-                {Object.entries(formData).map(([key, value]) => (
-                  <TableRow
-                    key={key}
-                    label={key}
-                    value={value === patternData.initialFormData[key] ? "" : value} // 如果值等於初始值，將其設置為空字符串
-                    onChange={(value) => handleInputChange(key, value)}
-                  />
-                ))}
+            {Object.entries(formData).map(([key, value]) => (
+              <TableRow
+                key={key}
+                label={key}
+                value={value === patternData.initialFormData[key] ? "" : value} // 如果值等於初始值，將其設置為空字符串
+                onChange={(value) => handleInputChange(key, value)}
+              />
+            ))}
           </div>
 
           <div className="card-footer">

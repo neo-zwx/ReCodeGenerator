@@ -1,6 +1,8 @@
 // api/patternApi.js
 //條件式渲染
 
+import { EXFactoryPattern, HTFactoryPattern,CDFactoryPattern } from "../modal/FactoryModal";
+
 //數據原是定義在patterns物件中的靜態數據，模擬了設計模式資料庫
 const patterns = {
   factory: {
@@ -23,6 +25,11 @@ const patterns = {
         factoryB: "factoryB",
         productB: "productB",
       },
+      modalComponents:{
+        HT: HTFactoryPattern,
+        EX: EXFactoryPattern,
+        CD: CDFactoryPattern,
+      }
     },
     java :{
       title: "Factory Pattern",
@@ -34,6 +41,11 @@ const patterns = {
         ConcreteProductA: "ConcreteProductA",
         ConcreteProductB: "ConcreteProductB",
       },
+      modalComponents:{
+        HT: HTFactoryPattern,
+        EX: EXFactoryPattern,
+        CD: CDFactoryPattern,
+      }
     },
   },
   flyweight: {
@@ -46,6 +58,11 @@ const patterns = {
       extrinsicState: "extrinsicState",
       intrinsicState: "intrinsicState",
     },
+    modalComponents:{
+      HT: HTFlyweightPattern,
+      EX: EXFactoryPattern,
+      CD: CDFactoryPattern,
+    }
   },
   java:{
     title: "Flyweight Pattern",
@@ -56,6 +73,11 @@ const patterns = {
       externalState:"extrnalState",
       intrinsicState:"intrinsicState",
     },
+    modalComponents:{
+      HT: HTFactoryPattern,
+      EX: EXFactoryPattern,
+      CD: CDFactoryPattern,
+    }
 
   },
   },
